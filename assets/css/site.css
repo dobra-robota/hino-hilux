@@ -85,6 +85,14 @@ a:hover { text-decoration: underline; }
 }
 .cta:hover { background: var(--red-dark); text-decoration: none; }
 
+.cta-pending {
+	margin-top: 1.5rem;
+	font-weight: 700;
+	color: #d7dbe0;
+	border-left: 3px solid var(--red);
+	padding-left: 0.75rem;
+}
+
 /* Value props */
 .value-props {
 	max-width: var(--max);

@@ -15,8 +15,8 @@ One codebase, two entrypoints sharing a single route registry
 (`internal/site/routes.go`) so the phase-1 static site and the future dynamic app never
 diverge:
 
-- `cmd/server` — live `net/http` server (local dev now; production runtime later).
-- `cmd/export` — renders every route to `dist/` for GitHub Pages.
+- `cmd/server`: live `net/http` server (local dev now; production runtime later).
+- `cmd/export`: renders every route to `dist/` for GitHub Pages.
 
 Views are typed `templ` components in `views/`. Styling is one hand-written stylesheet
 (`assets/css/site.css`). Site-root files (e.g. `robots.txt`) live in `static/`.
@@ -27,7 +27,7 @@ Views are typed `templ` components in `views/`. Styling is one hand-written styl
 
 ## Develop
 
-`*_templ.go` is generated (gitignored), so generate first — the Makefile does it for you:
+`*_templ.go` is generated (gitignored), so generate first. The Makefile does it for you:
 
 ```sh
 make dev      # generate + run the server at http://localhost:8080
@@ -50,5 +50,5 @@ Pushing to `master` runs `.github/workflows/pages.yml`, which generates, exports
 One-time setup: **Settings → Pages → Build and deployment → Source = "GitHub Actions".**
 
 > `static/robots.txt` (AI-crawler allowlist) only governs crawling once the site is on a
-> custom domain — on the default `*.github.io/hino-hilux/` URL, `robots.txt` at the
+> custom domain. On the default `*.github.io/hino-hilux/` URL, `robots.txt` at the
 > sub-path is ignored by crawlers.

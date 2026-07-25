@@ -39,8 +39,8 @@ var pages = []pageSpec{
 		Path:        "/",
 		Output:      "index.html",
 		NavLabel:    "Home",
-		Title:       "Hilux & Hino Specialists — Fast fleet turnaround",
-		Description: "Independent Hino 300 and Hino 700 specialists. Fast-turnaround servicing and repairs for fleet operators.",
+		Title:       "Hino & Hilux Specialists — a family workshop",
+		Description: "A family-run workshop with 50+ years of combined experience servicing Hino trucks and Hilux bakkies — fast, honest turnaround for fleet operators.",
 		Build:       views.HomePage,
 	},
 }

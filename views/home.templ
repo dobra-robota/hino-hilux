@@ -1,0 +1,36 @@
+package views
+
+// HomePage is the full home page: shell + home body.
+templ HomePage(l Layout) {
+	@Base(l) {
+		@homeBody(l)
+	}
+}
+
+templ homeBody(l Layout) {
+	<section class="hero">
+		<div class="hero-inner">
+			<p class="eyebrow">Independent Hino 300 &amp; Hino 700 specialists</p>
+			<h1>Fleet down? We turn Hino trucks around&nbsp;fast.</h1>
+			<p class="lede">
+				Light-duty Hino 300 to heavy-duty Hino 700 — specialist servicing and
+				repairs built around minimising your fleet's downtime.
+			</p>
+			<a class="cta" href="tel:+27000000000">Call us &mdash; quick turnaround</a>
+		</div>
+	</section>
+	<section class="value-props">
+		<article>
+			<h2>Hino 300 experts</h2>
+			<p>Light- and medium-duty delivery trucks serviced by people who know them.</p>
+		</article>
+		<article>
+			<h2>Hino 700 experts</h2>
+			<p>Heavy-duty long-haul and construction trucks kept on the road.</p>
+		</article>
+		<article>
+			<h2>Fast turnaround</h2>
+			<p>Downtime costs money. We prioritise getting your vehicles back to work.</p>
+		</article>
+	</section>
+}

@@ -1,0 +1,40 @@
+package views
+
+// Base is the shared HTML shell: head, header nav, footer (with the
+// non-affiliation notice), and a slot for page-specific content.
+templ Base(l Layout) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>{ l.Title }</title>
+			<meta name="description" content={ l.Description }/>
+			<link rel="stylesheet" href={ templ.SafeURL(l.Href("/assets/css/site.css")) }/>
+		</head>
+		<body>
+			<header class="site-header">
+				<a class="brand" href={ templ.SafeURL(l.Href("/")) }>Hilux &amp; Hino Specialists</a>
+				<nav class="site-nav">
+					for _, n := range l.Nav {
+						if n.Path == l.Current {
+							<a href={ templ.SafeURL(l.Href(n.Path)) } aria-current="page">{ n.Label }</a>
+						} else {
+							<a href={ templ.SafeURL(l.Href(n.Path)) }>{ n.Label }</a>
+						}
+					}
+				</nav>
+			</header>
+			<main>
+				{ children... }
+			</main>
+			<footer class="site-footer">
+				<p class="disclaimer">
+					Independent specialist workshop. Not affiliated with, endorsed by, or
+					connected to Hino Motors Ltd., Hino South Africa, or Toyota. "Hino" and
+					"Hilux" model names are used only to describe the vehicles we service.
+				</p>
+			</footer>
+		</body>
+	</html>
+}

@@ -1,0 +1,53 @@
+# Allowlist policy: only trusted AI crawlers (and the crawler Gemini depends on)
+# may access the site. Everything else is disallowed.
+#
+# Each allowed agent gets its own group with `Allow: /`; the catch-all `*`
+# group at the end disallows every other crawler. A crawler obeys the most
+# specific matching group, so listed agents are allowed and all others blocked.
+
+# --- OpenAI (ChatGPT) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# --- Anthropic (Claude) ---
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# --- Google (Gemini) ---
+# Google-Extended controls AI/Gemini training use but issues no fetches of its
+# own; Gemini grounding relies on Google's index, which is built by Googlebot.
+# Googlebot is therefore allowed so Gemini can see the site (this also enables
+# normal Google Search discoverability).
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# --- DeepSeek ---
+# NOTE: token sourced from the community ai-robots-txt list, not first-party
+# DeepSeek docs (which currently document only the API). Unverified.
+User-agent: DeepSeekBot
+Allow: /
+
+# --- Moonshot AI (Kimi) ---
+# NOTE: token sourced from the community ai-robots-txt list, not first-party
+# Moonshot docs. Unverified.
+User-agent: Kimi-User
+Allow: /
+
+# --- Everyone else: blocked ---
+User-agent: *
+Disallow: /

@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Least-privilege token: read the repo, write Pages, mint the OIDC token deploy-pages needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only the latest master build publishes; in-flight runs are cancelled.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Generate templ components
+        run: go run github.com/a-h/templ/cmd/templ@v0.3.1020 generate
+
+      - name: Compile all packages (guards cmd/server too)
+        run: go build ./...
+
+      - name: Build static site
+        env:
+          # Project Pages serve under /<repo>; make asset/nav URLs match.
+          SITE_BASE_PATH: /${{ github.event.repository.name }}
+        run: go run ./cmd/export
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

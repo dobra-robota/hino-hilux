@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hino Hilux Specialists">
+  <rect width="64" height="64" rx="12" fill="#1a1d21"/>
+  <path d="M18 14 h7 v13 h14 v-13 h7 v32 h-7 v-12 h-14 v12 h-7 z" fill="#ffffff"/>
+  <rect x="10" y="52" width="44" height="6" rx="3" fill="#e4002b"/>
+</svg>

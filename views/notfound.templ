@@ -1,0 +1,17 @@
+package views
+
+// NotFoundPage renders the 404 page. GitHub Pages serves dist/404.html for any
+// unknown path, and the local server uses it as the fallback handler.
+templ NotFoundPage(l Layout) {
+	@Base(l) {
+		<section class="page page-center">
+			<p class="eyebrow">Error 404</p>
+			<h1>We could not find that page.</h1>
+			<p class="page-lede">
+				The page you are after may have moved or never existed. Let us get you
+				back on the road.
+			</p>
+			<a class="cta" href={ templ.SafeURL(l.Href("/")) }>Back to home</a>
+		</section>
+	}
+}

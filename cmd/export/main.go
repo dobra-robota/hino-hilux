@@ -11,6 +11,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/a-h/templ"
+
 	"github.com/dobra-robota/hino-hilux/internal/site"
 )
 
@@ -29,22 +31,15 @@ func run() error {
 
 	ctx := context.Background()
 	for _, r := range site.Routes() {
-		out := filepath.Join(distDir, filepath.FromSlash(r.Output))
-		if err := os.MkdirAll(filepath.Dir(out), 0o755); err != nil {
+		if err := renderPage(ctx, r.Output, r.Page); err != nil {
 			return err
 		}
-		f, err := os.Create(out)
-		if err != nil {
-			return err
-		}
-		if err := r.Page.Render(ctx, f); err != nil {
-			f.Close()
-			return err
-		}
-		if err := f.Close(); err != nil {
-			return err
-		}
-		log.Printf("wrote %s", out)
+	}
+
+	// 404 page: GitHub Pages serves dist/404.html for any unknown path.
+	nfOut, nfPage := site.NotFound()
+	if err := renderPage(ctx, nfOut, nfPage); err != nil {
+		return err
 	}
 
 	if err := copyDir("assets", filepath.Join(distDir, "assets")); err != nil {
@@ -58,6 +53,27 @@ func run() error {
 		return err
 	}
 	log.Printf("copied static -> %s", distDir)
+	return nil
+}
+
+// renderPage renders one component to distDir/<output>, creating parent dirs.
+func renderPage(ctx context.Context, output string, page templ.Component) error {
+	out := filepath.Join(distDir, filepath.FromSlash(output))
+	if err := os.MkdirAll(filepath.Dir(out), 0o755); err != nil {
+		return err
+	}
+	f, err := os.Create(out)
+	if err != nil {
+		return err
+	}
+	if err := page.Render(ctx, f); err != nil {
+		f.Close()
+		return err
+	}
+	if err := f.Close(); err != nil {
+		return err
+	}
+	log.Printf("wrote %s", out)
 	return nil
 }
 

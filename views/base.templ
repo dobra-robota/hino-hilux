@@ -10,6 +10,8 @@ templ Base(l Layout) {
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<title>{ l.Title }</title>
 			<meta name="description" content={ l.Description }/>
+			<meta name="theme-color" content="#1a1d21"/>
+			<link rel="icon" href={ templ.SafeURL(l.Href("/assets/favicon.svg")) } type="image/svg+xml"/>
 			<link rel="stylesheet" href={ templ.SafeURL(l.Href("/assets/css/site.css")) }/>
 		</head>
 		<body>

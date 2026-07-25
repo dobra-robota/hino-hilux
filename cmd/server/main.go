@@ -41,6 +41,15 @@ func main() {
 		}
 	}
 
+	// Fallback: any unmatched path renders the 404 page (mirrors GitHub Pages
+	// serving dist/404.html). "GET /" is the least-specific pattern, so exact
+	// page routes and the prefixes above take precedence.
+	_, notFound := site.NotFound()
+	mux.Handle("GET /", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNotFound)
+		_ = notFound.Render(r.Context(), w)
+	}))
+
 	log.Printf("serving on http://localhost%s", addr)
 	if err := http.ListenAndServe(addr, mux); err != nil {
 		log.Fatal(err)

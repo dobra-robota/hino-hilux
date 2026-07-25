@@ -25,6 +25,8 @@ body {
 a { color: var(--red); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+img { max-width: 100%; height: auto; display: block; }
+
 /* Header / nav */
 .site-header {
 	display: flex;
@@ -131,3 +133,25 @@ a:hover { text-decoration: underline; }
 	font-size: 0.85rem;
 }
 .disclaimer { max-width: var(--max); margin: 0 auto; }
+
+/* 404 page */
+.page-center {
+	text-align: center;
+	min-height: 50vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.page-center .page-lede { color: var(--grey); max-width: 45ch; }
+
+/* Small screens: stack the header so brand and nav don't crowd */
+@media (max-width: 600px) {
+	.site-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
+	.site-nav { gap: 1rem; }
+	.hero h1 { max-width: none; }
+}

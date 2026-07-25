@@ -67,17 +67,22 @@ func basePath() string {
 	return strings.TrimRight(os.Getenv("SITE_BASE_PATH"), "/")
 }
 
-// Routes returns every page in the site, with nav derived from the registry so
-// the menu never links to a page that does not exist.
-func Routes() []Route {
-	base := basePath()
-
+// navLinks derives the top nav from the registry so the menu never links to a
+// page that does not exist.
+func navLinks() []views.NavLink {
 	var nav []views.NavLink
 	for _, p := range pages {
 		if p.NavLabel != "" {
 			nav = append(nav, views.NavLink{Label: p.NavLabel, Path: p.Path})
 		}
 	}
+	return nav
+}
+
+// Routes returns every page in the site.
+func Routes() []Route {
+	base := basePath()
+	nav := navLinks()
 
 	routes := make([]Route, 0, len(pages))
 	for _, p := range pages {
@@ -91,4 +96,18 @@ func Routes() []Route {
 		routes = append(routes, Route{Path: p.Path, Output: p.Output, Page: p.Build(l)})
 	}
 	return routes
+}
+
+// NotFound returns the 404 page's output filename and component. It is not a
+// nav entry: GitHub Pages serves it for unknown paths and the local server uses
+// it as the fallback handler.
+func NotFound() (output string, page templ.Component) {
+	l := views.Layout{
+		Title:       "Page not found: Hino & Hilux Specialists",
+		Description: "The page you are looking for could not be found.",
+		BasePath:    basePath(),
+		Current:     "",
+		Nav:         navLinks(),
+	}
+	return "404.html", views.NotFoundPage(l)
 }

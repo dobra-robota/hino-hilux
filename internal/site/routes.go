@@ -22,7 +22,7 @@ type Route struct {
 
 // pageSpec declares one page. NavLabel != "" means the page appears in the
 // top nav; keeping it empty (or simply not declaring a page) is what prevents
-// dead nav links — the nav is derived from the pages that actually exist.
+// dead nav links; the nav is derived from the pages that actually exist.
 type pageSpec struct {
 	Path        string
 	Output      string
@@ -33,15 +33,31 @@ type pageSpec struct {
 }
 
 // pages is the ordered registry. Add a page here and it is served, exported,
-// and (if NavLabel is set) linked in the nav — no other file to touch.
+// and (if NavLabel is set) linked in the nav, with no other file to touch.
 var pages = []pageSpec{
 	{
 		Path:        "/",
 		Output:      "index.html",
 		NavLabel:    "Home",
-		Title:       "Hino & Hilux Specialists — a family workshop",
-		Description: "A family-run workshop with 50+ years of combined experience servicing Hino trucks and Hilux bakkies — fast, honest turnaround for fleet operators.",
+		Title:       "Hino & Hilux Specialists, a family workshop",
+		Description: "A family-run workshop with 50+ years of combined experience servicing Hino trucks and Hilux bakkies, with fast, honest turnaround for fleet operators.",
 		Build:       views.HomePage,
+	},
+	{
+		Path:        "/services/",
+		Output:      "services/index.html",
+		NavLabel:    "Services",
+		Title:       "Services: Hino & Hilux servicing, repairs & fleet work",
+		Description: "Specialist servicing, repairs and fleet maintenance for Hino 300 and Hino 700 trucks and the Toyota Hilux, with fast, honest turnaround.",
+		Build:       views.ServicesPage,
+	},
+	{
+		Path:        "/about/",
+		Output:      "about/index.html",
+		NavLabel:    "About us",
+		Title:       "About us: a family Hino & Hilux workshop",
+		Description: "A father-and-two-sons workshop with 50+ years of combined experience specialising in Hino trucks and the Toyota Hilux.",
+		Build:       views.AboutPage,
 	},
 }
 

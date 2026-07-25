@@ -27,7 +27,7 @@ func main() {
 
 	// Site-root static files (robots.txt, etc.). Registered per file so they
 	// don't shadow page routes. NOTE: on a GitHub Pages *project* site,
-	// robots.txt at the sub-path is ignored by crawlers (host-root only) —
+	// robots.txt at the sub-path is ignored by crawlers (host-root only);
 	// it only governs crawling once the site is on a custom domain.
 	if entries, err := os.ReadDir("static"); err == nil {
 		for _, e := range entries {

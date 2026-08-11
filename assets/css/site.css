@@ -124,6 +124,12 @@ img { max-width: 100%; height: auto; display: block; }
 .services li { border-left: 3px solid var(--red); padding-left: 1rem; }
 .services h2 { font-size: 1.2rem; margin: 0 0 0.35rem; color: var(--charcoal); }
 .services p { margin: 0; }
+.page-note {
+	margin: 2rem 0 0;
+	padding-top: 1rem;
+	border-top: 1px solid var(--grey-light);
+	font-size: 0.95rem;
+}
 
 /* Footer */
 .site-footer {

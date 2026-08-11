@@ -1,8 +1,10 @@
 # hino-hilux
 
-Brand/landing site for an **independent** truck workshop specialising in fast-turnaround
-Hino 300 & Hino 700 servicing. Built with Go + [`templ`](https://templ.guide), rendered to
-static HTML, and deployed to GitHub Pages.
+Brand/landing site for an **independent** truck workshop serving **Gauteng fleet operators
+only** (roughly 5 to 100 vehicles), specialising in Hino 300, Hino 500 & Hino 700 and
+Toyota Hilux (D4D 2.5, D4D 3.0, GD6 2.4, GD6 2.8) servicing.
+Built with Go + [`templ`](https://templ.guide), rendered to static HTML, and deployed to
+GitHub Pages.
 
 Not affiliated with, endorsed by, or connected to Hino Motors Ltd. / Hino South Africa.
 Model names are used only to describe the vehicles serviced.

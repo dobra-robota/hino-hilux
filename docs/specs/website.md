@@ -8,7 +8,8 @@ Status: draft (spec-driven). Owner: repo maintainer. Source of truth for the bui
 uncle's company) needs a web presence. Two horizons:
 
 - **Phase 1 (now):** a landing / portfolio page positioning the business as **fast-turnaround
-  Hino 300 & Hino 700 service experts** for fleet operators. Free to host, trivial to deploy.
+  Hino 300 / 500 / 700 and Hilux service experts** for fleet operators. Free to host, trivial
+  to deploy.
 - **Phase 2 (later):** interactive **service booking and ordering**, needing a request-time backend.
 
 The phase-1 build must **not** be a throwaway: it must be structured so phase 2 adds dynamic
@@ -17,12 +18,17 @@ endpoints and a real runtime **without rewriting** the view or routing layer.
 ## Product context
 
 - **Business:** independent specialist workshop. **Not affiliated with Hino Motors / Hino SA.**
-  Uses model names (Hino 300, Hino 700) **nominatively** to describe what it services.
-- **Audience:** fleet operators / businesses running Hino trucks (B2B lean).
-- **Positioning:** speed + specialist expertise: "Hino 300 (light-duty) & Hino 700
-  (heavy-duty) experts, very quick turnaround." Minimises fleet downtime.
-- **Primary CTA (phase 1):** phone call (`tel:` link) + physical address + embedded map.
-  No form/backend needed (booking is phase 2).
+  Uses model names (Hino 300, Hino 500, Hino 700, Toyota Hilux) **nominatively** to describe
+  what it services.
+- **Audience:** fleet operators / businesses running trucks and light vehicles. **B2B only —
+  no walk-ins, no private individuals** (confirmed by the owner, `docs/notes/owner-call-2026-08-09.md`).
+- **Positioning:** speed + specialist expertise: "Hino 300 (light-duty), Hino 500 (medium-duty)
+  & Hino 700 (heavy-duty) and Hilux experts, very quick turnaround." Minimises fleet downtime.
+  Full maintenance (preventative, planned) rather than job-by-job repairs; breakdown recovery
+  is **arranged** through a third-party operator, never claimed in-house.
+- **Primary CTA (phase 1):** phone call (`tel:` link), plus physical address as plain text for
+  drop-off logistics. **No embedded map** — with walk-ins ruled out it has no conversion job
+  (retires R5). No form/backend needed (booking is phase 2).
 - **Copy:** realistic expert copy drafted now as a working starting point; owner edits later.
 - **Reference for look/structure only:** https://www.hino.co.za/. Echo its clean industrial
   idiom (full-bleed truck hero, high whitespace, strong sans-serif, model-focused cards).
@@ -117,12 +123,15 @@ GitHub Pages URL in one CI run; the **same** codebase runs as a live server via
 
 ## Site map (phase 1)
 
-- **Home** (`/`): hero (headline: Hino 300 & 700 experts, fast turnaround), quick value
-  props, primary phone CTA, teaser of services.
-- **Services** (`/services/`): Hino 300 light-duty, Hino 700 heavy-duty, fleet
-  servicing/maintenance, quick-turnaround repairs. Nominative model use.
+- **Home** (`/`): hero (headline: Hino 300 / 500 / 700 and Hilux experts, fast turnaround),
+  quick value props (incl. arranged breakdown recovery), primary phone CTA, teaser of services.
+- **Services** (`/services/`): Hino 300 light-duty, Hino 500 medium-duty, Hino 700 heavy-duty,
+  Hilux (D4D 2.5, D4D 3.0, GD6); full preventative maintenance, engine overhauls, general
+  mechanical repairs, arranged recovery; explicit scope note (fleets only, no panel beating).
+  Nominative model use.
 - **About** (`/about/`): independent specialist story, expertise, why fleets trust them.
-- **Contact** (`/contact/`): phone (`tel:`), address, hours, embedded map, non-affiliation note.
+- **Contact** (`/contact/`): phone (`tel:`), address as plain text, hours, non-affiliation note.
+  No embedded map (see Product context).
 
 ## Architecture
 
@@ -174,8 +183,11 @@ Content / rendering:
 - [ ] No HTMX/JS is loaded; pages are fully functional as static HTML/CSS.
 
 Product:
-- [ ] Home hero states the Hino 300 & Hino 700 fast-turnaround expert positioning.
-- [ ] Every page exposes the phone `tel:` CTA; Contact shows address + embedded map.
+- [ ] Home hero states the Hino 300 / 500 / 700 and Hilux fast-turnaround expert positioning.
+- [ ] Copy addresses fleet operators only and never courts walk-in / private customers.
+- [ ] Services states in-house scope (overhauls, mechanical repairs, preventative maintenance),
+      that recovery is *arranged*, and that panel beating is not offered.
+- [ ] Every page exposes the phone `tel:` CTA; Contact shows the address as plain text.
 - [ ] A non-affiliation disclaimer ("independent; not affiliated with Hino") appears in the footer.
 - [ ] No Hino logos/official assets are used.
 
@@ -197,12 +209,18 @@ Deploy:
   nominative model use only, explicit footer disclaimer. Acceptance covers this.
 - **R4. Over-engineering phase 1.** Server + exporter split is deliberately minimal (stdlib
   `net/http`, few files). Justified solely by the phase-2 migration requirement.
-- **R5. Map embed pulls a third-party script.** A Google Maps `<iframe>` is static-safe (no
-  build dep) but is an external request; acceptable, or swap for a static map image + address link.
+- **R5. Retired.** The embedded map is dropped: walk-ins are ruled out, so the map had no
+  conversion job and its third-party request is no longer worth taking.
 - **R6. `robots.txt` inert on the default project Pages URL.** REP honours `robots.txt` only
   at the host root, so `<owner>.github.io/hino-hilux/robots.txt` is ignored (see D7). The AI
   allowlist takes effect only under a custom domain / root user-site. Blocked on the custom
   domain, which is already a deferred non-goal. File shipped and ready.
+- **R7. Overclaiming unconfirmed credentials or scope.** The owner mentioned bank fleet
+  approvals (ABSA, Standard Bank) and sublet exhaust / gearbox / radiator work, but the exact
+  wording, the banks' consent to be named, and whether sublet jobs may be advertised are all
+  unresolved (`docs/notes/owner-call-2026-08-09.md`). Mitigation: none of it appears in copy
+  until the owner confirms; only Fidelity (explicitly cleared) is named, and recovery is
+  described as arranged, not owned.
 - **Rollback:** static, versioned site. Revert the commit; CI redeploys the prior `dist/`.
 
 ## Proposed slices (tracer bullets)
@@ -219,8 +237,8 @@ Each slice leaves `master` green and deployable.
 - **S3. Layout, nav, assets, real pages + copy.** `page.templ`, shared nav/footer (with
   non-affiliation notice + phone CTA), `assets/` copy + industrial `site.css`, and drafted copy
   for home/services/about/contact per the site map and positioning.
-- **S4. Contact & conversion.** `tel:` CTA everywhere, contact page with address/hours/map,
-  SEO meta, favicon, 404 page.
+- **S4. Contact & conversion.** `tel:` CTA everywhere, contact page with address (plain text)
+  and hours, SEO meta, favicon, 404 page.
 - **S5. Polish.** Responsive CSS pass, hero/placeholder imagery, accessibility check
   (landmarks, alt text, contrast).
 
